@@ -105,15 +105,24 @@ public struct CosmeticInfoV2 : ISerializationCallbackReceiver
 	[Tooltip("For parent (collection) cosmetics: when true only one collectable is visible at a time and the player can cycle through them. When false all slots are shown simultaneously")]
 	public bool collectionIsCycling;
 
-	[Tooltip("For parent (collection) cosmetics: when true each sub-item's Target Slot Index is respected and items snap to their declared slot. When false index values are ignored and sub-items fill slots in acquisition order. Uncheck this to quickly compare both layouts without touching sub-item SOs.")]
+	[Tooltip("[Non-cycling collections only] When true, each sub-item is placed at the specific physical slot position declared by its 'Target Slot Index', rather than filling slots in purchase order. Use this when sub-items must always occupy a fixed dedicated position on the parent ")]
 	public bool collectionUsesIndexTargeting;
 
+	[Tooltip("[Cycling collections only] When true, sub-items are cycled through in ascending Series Index order rather than purchase order, regardless of when they were acquired. Gaps in the series are skipped only owned items appear, but always in their correct numbered sequence (e.g. comic reade always cycle as #1 → #2 → #3 even if bought out of order).")]
+	public bool collectionUsesSeriesOrder;
+
 	[Space]
-	[Tooltip("For sub-item (collectable) cosmetics: the PlayFab ID of the parent cosmetic that must be owned before this sub-item can be purchased. Leave empty if this is not a sub-item.")]
+	[Tooltip("For sub-item (collectable) cosmetics: the parent cosmetics this sub-item attaches to. A sub-item can list multiple parents; it is shown on every listed parent that is equipped, and each entry carries its own target slot index, so the same sub-item can occupy a different slot on different parents. At least one listed parent must be owned before this sub-item can be purchased. Leave empty if this is not a sub-item.")]
+	public CosmeticCollectionParentLink[] collectionParentLinks;
+
+	[HideInInspector]
 	public string collectionParentPlayFabID;
 
-	[Tooltip("For sub-item (collectable) cosmetics: the slot index (0-based) on the parent cosmeticSO that this sub-item occupies. Set to Any for interchangeable items (e.g. badges) that fill any available slot in acquisition order. Set to a specific index when this item must always go to a particular socket on the parent.")]
+	[HideInInspector]
 	public int collectionTargetSlotIndex;
+
+	[HideInInspector]
+	public int collectionSeriesIndex;
 
 	[Tooltip("PlayFab ID of the cosmetic to apply to a hit player via Cosmetic Swapper (e.g. chicken sword) tech. Distinct from this sub-item's own visual.")]
 	public string appliedCosmeticPlayFabID;
@@ -199,6 +208,65 @@ public struct CosmeticInfoV2 : ISerializationCallbackReceiver
 		}
 	}
 
+	public bool isCollectionSubItem
+	{
+		get
+		{
+			CosmeticCollectionParentLink[] array = collectionParentLinks;
+			if (array != null)
+			{
+				return array.Length > 0;
+			}
+			return false;
+		}
+	}
+
+	public bool IsSubItemOfParent(string parentPlayFabID)
+	{
+		if (collectionParentLinks == null)
+		{
+			return false;
+		}
+		for (int i = 0; i < collectionParentLinks.Length; i++)
+		{
+			if (collectionParentLinks[i].parentPlayFabID == parentPlayFabID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int GetTargetSlotIndexForParent(string parentPlayFabID)
+	{
+		if (collectionParentLinks != null)
+		{
+			for (int i = 0; i < collectionParentLinks.Length; i++)
+			{
+				if (collectionParentLinks[i].parentPlayFabID == parentPlayFabID)
+				{
+					return collectionParentLinks[i].targetSlotIndex;
+				}
+			}
+		}
+		return -1;
+	}
+
+	public int GetSeriesIndexForParent(string parentPlayFabID)
+	{
+		if (collectionParentLinks != null)
+		{
+			for (int i = 0; i < collectionParentLinks.Length; i++)
+			{
+				if (collectionParentLinks[i].parentPlayFabID == parentPlayFabID)
+				{
+					return collectionParentLinks[i].seriesIndex;
+				}
+			}
+		}
+		return -1;
+	}
+
 	public CosmeticInfoV2(string displayName)
 	{
 		enabled = true;
@@ -220,6 +288,7 @@ public struct CosmeticInfoV2 : ISerializationCallbackReceiver
 		setCosmetics = new CosmeticSO[0];
 		collectionSlots = Array.Empty<CosmeticCollectionSlotDefinition>();
 		collectionIsCycling = false;
+		collectionParentLinks = Array.Empty<CosmeticCollectionParentLink>();
 		collectionParentPlayFabID = string.Empty;
 		collectionTargetSlotIndex = -1;
 		anchorAntiIntersectOffsets = default(CosmeticAnchorAntiIntersectOffsets);
@@ -227,6 +296,8 @@ public struct CosmeticInfoV2 : ISerializationCallbackReceiver
 		throwableMaterialGrabIndices = new int[0];
 		throwableIndex = -1;
 		collectionUsesIndexTargeting = false;
+		collectionUsesSeriesOrder = false;
+		collectionSeriesIndex = -1;
 		appliedCosmeticPlayFabID = null;
 	}
 
@@ -245,6 +316,22 @@ public struct CosmeticInfoV2 : ISerializationCallbackReceiver
 		if (setCosmetics == null)
 		{
 			setCosmetics = Array.Empty<CosmeticSO>();
+		}
+		if ((collectionParentLinks == null || collectionParentLinks.Length == 0) && !string.IsNullOrEmpty(collectionParentPlayFabID))
+		{
+			collectionParentLinks = new CosmeticCollectionParentLink[1]
+			{
+				new CosmeticCollectionParentLink
+				{
+					parentPlayFabID = collectionParentPlayFabID,
+					targetSlotIndex = collectionTargetSlotIndex,
+					seriesIndex = collectionSeriesIndex
+				}
+			};
+		}
+		if (collectionParentLinks == null)
+		{
+			collectionParentLinks = Array.Empty<CosmeticCollectionParentLink>();
 		}
 	}
 

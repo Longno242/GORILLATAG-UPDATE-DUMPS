@@ -127,7 +127,7 @@ public class ModioAPIUnityClient : IModioAPIInterface, IDisposable
 		try
 		{
 			webRequest.SendWebRequest();
-			await handler.ResponseReceived(token);
+			await handler.ResponseReceived();
 			long responseCode = webRequest.responseCode;
 			if (responseCode < 200 || responseCode >= 300)
 			{
