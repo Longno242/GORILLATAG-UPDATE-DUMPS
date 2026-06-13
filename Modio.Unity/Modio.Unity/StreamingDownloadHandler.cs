@@ -161,7 +161,7 @@ internal class StreamingDownloadHandler : DownloadHandlerScript
 				result.Offset += num;
 				if (!result.HasData)
 				{
-					_dataQueue.TryDequeue(out var _);
+					_dataQueue.TryDequeue(out BufferChunk _);
 					result.Dispose();
 				}
 			}
@@ -201,20 +201,30 @@ internal class StreamingDownloadHandler : DownloadHandlerScript
 
 	private readonly CancellationToken _cancellationToken;
 
+	private readonly CancellationTokenSource? _cancellationTokenSource;
+
 	private readonly TaskCompletionSource<bool> _hasReceivedHeaders = new TaskCompletionSource<bool>();
 
-	private UnityWebRequest _callingRequest;
+	private UnityWebRequest? _callingRequest;
 
-	internal StreamingDownloadHandler(int bufferSize = 1048576, CancellationToken token = default(CancellationToken))
+	internal StreamingDownloadHandler(int bufferSize = 1048576, CancellationToken? token = null)
 		: this(new byte[bufferSize], token)
 	{
 	}
 
-	private StreamingDownloadHandler(byte[] buffer, CancellationToken token = default(CancellationToken))
+	private StreamingDownloadHandler(byte[] buffer, CancellationToken? token = null)
 		: base(buffer)
 	{
-		_streamBuffer = new ChunkedStreamBuffer(token);
-		_cancellationToken = token;
+		if (!token.HasValue)
+		{
+			_cancellationTokenSource = new CancellationTokenSource();
+			_cancellationToken = _cancellationTokenSource.Token;
+		}
+		else
+		{
+			_cancellationToken = token.Value;
+		}
+		_streamBuffer = new ChunkedStreamBuffer(_cancellationToken);
 	}
 
 	public void SetCallingRequest(UnityWebRequest request)
@@ -227,11 +237,17 @@ internal class StreamingDownloadHandler : DownloadHandlerScript
 		return _streamBuffer;
 	}
 
+	public override void Dispose()
+	{
+		base.Dispose();
+		_cancellationTokenSource?.Dispose();
+	}
+
 	protected override bool ReceiveData(byte[] dataReceived, int dataLength)
 	{
 		if (_cancellationToken.IsCancellationRequested)
 		{
-			_callingRequest.Abort();
+			_callingRequest?.Abort();
 			_streamBuffer.Flush();
 			_hasReceivedHeaders.TrySetCanceled();
 			return true;
@@ -241,7 +257,7 @@ internal class StreamingDownloadHandler : DownloadHandlerScript
 		return true;
 	}
 
-	public async Task ResponseReceived(CancellationToken token)
+	public async Task ResponseReceived()
 	{
 		await _hasReceivedHeaders.Task;
 	}
