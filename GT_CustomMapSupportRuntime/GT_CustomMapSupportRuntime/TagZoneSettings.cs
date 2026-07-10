@@ -7,7 +7,7 @@ namespace GT_CustomMapSupportRuntime;
 public class TagZoneSettings : TriggerSettings
 {
 	[Tooltip("Should this Trigger sync to all players, or only be processed for the person who triggered it?\nTagZones generally shouldn't need to do this, but doing so will sync it's internal TriggerCount to all players.")]
-	public bool syncedToAllPlayers;
+	public bool syncedToAllPlayers = false;
 
 	public override void PropagateProperties()
 	{

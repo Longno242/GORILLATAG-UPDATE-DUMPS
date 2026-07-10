@@ -193,6 +193,8 @@ public class GTLckController : MonoBehaviour
 
 	public CameraMode CurrentCameraMode => _currentCameraMode;
 
+	public bool IsTabletFollowingPlayer => _isTabletFollowingPlayer;
+
 	public event CameraModeDelegate OnCameraModeChanged;
 
 	public event UnityAction<bool> OnHorizontalModeChanged = delegate

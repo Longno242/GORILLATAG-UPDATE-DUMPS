@@ -8,7 +8,7 @@ namespace GT_CustomMapSupportRuntime;
 public class TeleporterSettings : TriggerSettings
 {
 	[Tooltip("Should this Trigger sync to all players, or only be processed for the person who triggered it?\nTeleporters generally shouldn't need to do this, but doing so will sync it's internal TriggerCount to all players.")]
-	public bool syncedToAllPlayers;
+	public bool syncedToAllPlayers = false;
 
 	[Tooltip("Teleport points used for this teleporter. Chosen at random.")]
 	[SerializeField]

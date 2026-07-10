@@ -16,7 +16,9 @@ public class GrabbableEntity : MapEntity
 
 	public override long GetPackedCreateData()
 	{
-		return (long)entityTypeId + (long)(lua_EntityID << 8);
+		long num = 0L;
+		num = entityTypeId;
+		return num + (lua_EntityID << 8);
 	}
 
 	public static void UnpackCreateData(long data, out byte entityTypeID, out short luaAgentID)

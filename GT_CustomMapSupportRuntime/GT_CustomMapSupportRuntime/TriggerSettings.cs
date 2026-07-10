@@ -20,7 +20,7 @@ public abstract class TriggerSettings : MonoBehaviour
 	public bool triggeredByHead = true;
 
 	[Tooltip("Should this Trigger re-trigger if a player stays inside it for long enough?")]
-	public bool retriggerAfterDuration;
+	public bool retriggerAfterDuration = false;
 
 	[Tooltip("(Seconds) If 'retriggerAfterDuration' is TRUE, how long does a player need to Stay inside the Trigger before it re-triggers? If 'generalRetriggerDelay' is larger, that value will be used instead.")]
 	public double retriggerStayDuration = 2.0;
@@ -29,13 +29,13 @@ public abstract class TriggerSettings : MonoBehaviour
 	public float retriggerDelay = 2f;
 
 	[Tooltip("(Seconds) When this trigger is Enabled/Activated, it can't be triggered until this duration has passed.")]
-	public double onEnableTriggerDelay;
+	public double onEnableTriggerDelay = 0.0;
 
 	[Tooltip("(Seconds) After being triggered, how long before this trigger can be triggered again?")]
-	public double generalRetriggerDelay;
+	public double generalRetriggerDelay = 0.0;
 
 	[Tooltip("How many times is this Trigger allowed to trigger? 0 means infinite")]
-	public byte numAllowedTriggers;
+	public byte numAllowedTriggers = 0;
 
 	[Tooltip("Validation Distance is used to validate network synced trigger activations and is automatically calculated during the Map Export process for single-collider triggers using a Box, Sphere, or Capsule collider. To customize this, or if using a MeshCollider or multi-collider setup, you can set this override to a positive, non-zero value. Generally it should be equal to about 1.5 times the full collider radius (including scale). For example: if using a Sphere collider with radius 2.0 and its GameObject has a scale of 3.0 (resulting in an actual radius of 6.0), you would set this value to (2.0 * 3.0) * 1.5 = 9.0")]
 	public float validationDistanceOverride = -1f;
@@ -47,7 +47,7 @@ public abstract class TriggerSettings : MonoBehaviour
 	public float validationDistance = 1f;
 
 	[HideInInspector]
-	public bool syncedToAllPlayers_private;
+	public bool syncedToAllPlayers_private = false;
 
 	public virtual void PropagateProperties()
 	{

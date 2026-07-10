@@ -127,8 +127,10 @@ public class AIAgent : MapEntity
 
 	public override long GetPackedCreateData()
 	{
+		long num = 0L;
 		bool hasInstance = AISpawnManager.HasInstance;
-		return (long)(hasInstance ? enemyTypeId : entityTypeId) + (long)((hasInstance ? lua_AgentID : lua_EntityID) << 8);
+		num = (hasInstance ? enemyTypeId : entityTypeId);
+		return num + ((hasInstance ? lua_AgentID : lua_EntityID) << 8);
 	}
 
 	public static void UnpackCreateData(long data, out byte entityTypeID, out short luaAgentID)

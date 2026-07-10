@@ -5,7 +5,7 @@ namespace GT_CustomMapSupportRuntime;
 [DisallowMultipleComponent]
 public class SurfaceOverrideSettings : MonoBehaviour
 {
-	public SurfaceSoundOverride soundOverride;
+	public SurfaceSoundOverride soundOverride = SurfaceSoundOverride.Default;
 
 	public float extraVelMultiplier = 1f;
 
@@ -15,5 +15,5 @@ public class SurfaceOverrideSettings : MonoBehaviour
 	public float slidePercentage = -1f;
 
 	[Tooltip("If TRUE, players won't be pushed away when tapping on the object")]
-	public bool disablePushBackEffect;
+	public bool disablePushBackEffect = false;
 }

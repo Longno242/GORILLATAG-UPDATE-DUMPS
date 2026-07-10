@@ -19,7 +19,7 @@ public class ObjectActivationTriggerSettings : TriggerSettings
 	public List<GameObject> triggersToReset = new List<GameObject>();
 
 	[Tooltip("If TRUE, only the TriggerCount for the Triggers in \"Triggers to Reset\" will be reset. LastTriggerTime will be unchanged.")]
-	public bool onlyResetTriggerCount;
+	public bool onlyResetTriggerCount = false;
 
 	public override void PropagateProperties()
 	{

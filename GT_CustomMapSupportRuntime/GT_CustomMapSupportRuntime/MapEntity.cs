@@ -5,7 +5,7 @@ namespace GT_CustomMapSupportRuntime;
 public class MapEntity : MonoBehaviour
 {
 	[Tooltip("If \"IsTemplate\" is enabled, this Map Entity will be used by the MapSpawnManager to create duplicate Map Entities of the same \"entityTypeId\". Template Map Entities will not be created when the map loads.")]
-	public bool isTemplate;
+	public bool isTemplate = false;
 
 	[Tooltip("\"EntityTypeID\" is used to distinguish each Map Entity that the MapSpawnManager can create. Make sure each Map Entity with \"IsTemplate\" set to TRUE has a unique \"EntityTypeID\".")]
 	public byte entityTypeId;

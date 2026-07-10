@@ -88,7 +88,8 @@ public static class CMSExtensions
 				return null;
 			}
 		}
-		Type type = Type.GetType(array[1].Split('#')[0]);
+		string typeName = array[1].Split('#')[0];
+		Type type = Type.GetType(typeName);
 		if (type == null)
 		{
 			return null;

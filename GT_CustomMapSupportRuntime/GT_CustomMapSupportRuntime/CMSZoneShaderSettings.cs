@@ -92,15 +92,15 @@ public class CMSZoneShaderSettings : MonoBehaviour
 
 	public static bool hasActiveInstance;
 
-	public bool isExported;
+	public bool isExported = false;
 
 	[Tooltip("Set this to true for cases like it is the first CMSZoneShaderSettings that should be activated when a scene is loaded.")]
-	public bool activateOnLoad;
+	public bool activateOnLoad = false;
 
 	[Tooltip("These values will be used as the default global values that will be fallen back to when not in a zone and that the other scripts will reference.")]
 	public bool isDefaultValues;
 
-	public bool applyGroundFog;
+	public bool applyGroundFog = false;
 
 	private static readonly int groundFogColor_shaderProp = Shader.PropertyToID("_ZoneGroundFogColor");
 
@@ -138,7 +138,7 @@ public class CMSZoneShaderSettings : MonoBehaviour
 
 	public EOverrideMode liquidShape_overrideMode;
 
-	public ELiquidShape liquidShape;
+	public ELiquidShape liquidShape = ELiquidShape.Plane;
 
 	private static ELiquidShape liquidShape_previousValue = ELiquidShape.Plane;
 
@@ -392,11 +392,7 @@ public class CMSZoneShaderSettings : MonoBehaviour
 
 	public static float GetWaterY()
 	{
-		if (!(activeInstance == null) && !(activeInstance.mainWaterSurfacePlane == null))
-		{
-			return activeInstance.mainWaterSurfacePlane.position.y;
-		}
-		return -1f;
+		return (activeInstance == null || activeInstance.mainWaterSurfacePlane == null) ? (-1f) : activeInstance.mainWaterSurfacePlane.position.y;
 	}
 
 	public int GetZoneLiquidUVScaleOverrideMode()

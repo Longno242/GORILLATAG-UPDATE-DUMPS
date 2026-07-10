@@ -113,7 +113,12 @@ public class Constants
 		typeof(PlayAnimationTriggerSettings),
 		typeof(SurfaceMoverSettings),
 		typeof(MovingSurfaceSettings),
-		typeof(CustomMapReviveStation)
+		typeof(CustomMapReviveStation),
+		typeof(BasicGravityZoneSettings),
+		typeof(ConsensusGravityZoneSettings),
+		typeof(TorusZoneSettings),
+		typeof(PlanetZoneSettings),
+		typeof(CubicPlanetZoneSettings)
 	};
 
 	public static readonly List<string> componentTypeStringAllowList = new List<string>

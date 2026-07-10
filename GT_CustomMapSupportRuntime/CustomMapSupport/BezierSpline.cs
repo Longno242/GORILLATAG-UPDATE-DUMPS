@@ -47,25 +47,11 @@ public class BezierSpline : MonoBehaviour
 		get
 		{
 			Vector3[]? array = points;
-			if (array == null)
-			{
-				return 0;
-			}
-			return array.Length;
+			return (array != null) ? array.Length : 0;
 		}
 	}
 
-	public int CurveCount
-	{
-		get
-		{
-			if (points != null)
-			{
-				return (points.Length - 1) / 3;
-			}
-			return 0;
-		}
-	}
+	public int CurveCount => (points != null) ? ((points.Length - 1) / 3) : 0;
 
 	private void Awake()
 	{

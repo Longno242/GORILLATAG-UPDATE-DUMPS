@@ -7,7 +7,7 @@ namespace GT_CustomMapSupportRuntime;
 [DisallowMultipleComponent]
 public class LoadZoneSettings : MonoBehaviour
 {
-	public bool useDynamicLighting;
+	public bool useDynamicLighting = false;
 
 	public Color UberShaderAmbientDynamicLight = Color.black;
 

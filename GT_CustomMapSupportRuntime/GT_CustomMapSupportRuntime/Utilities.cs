@@ -24,9 +24,9 @@ public static class Utilities
 	private static void StripMeshesForObjectsOfType<T>(GameObject rootObject)
 	{
 		T[] componentsInChildren = rootObject.GetComponentsInChildren<T>();
-		for (int i = 0; i < componentsInChildren.Length; i++)
+		foreach (T val in componentsInChildren)
 		{
-			Component component = componentsInChildren[i] as Component;
+			Component component = val as Component;
 			if (!(component == null))
 			{
 				if (component.gameObject.GetComponent<Renderer>() != null)
@@ -53,10 +53,6 @@ public static class Utilities
 				text += ".";
 			}
 		}
-		if (!sanitizeName)
-		{
-			return text;
-		}
-		return SanitizeString(text);
+		return sanitizeName ? SanitizeString(text) : text;
 	}
 }

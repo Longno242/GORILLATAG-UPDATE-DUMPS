@@ -26,7 +26,7 @@ public class GTObjectPlaceholder : MonoBehaviour
 
 	public bool useDefaultPlaceholder = true;
 
-	public bool useCustomMesh;
+	public bool useCustomMesh = false;
 
 	public float maxDistanceBeforeRespawn = 180f;
 
@@ -40,9 +40,9 @@ public class GTObjectPlaceholder : MonoBehaviour
 
 	public bool useWaterMesh = true;
 
-	public float scrollTextureX;
+	public float scrollTextureX = 0f;
 
-	public float scrollTextureY;
+	public float scrollTextureY = 0f;
 
 	public float scaleTexture = 20f;
 
@@ -57,7 +57,7 @@ public class GTObjectPlaceholder : MonoBehaviour
 
 	[Tooltip("How fast to accelerate to the max speed of the Force Volume.\n\nExample: An acceleration of 10 would get to a max speed of 50 over 5 seconds.")]
 	[Range(0f, 120f)]
-	public float accel_FV;
+	public float accel_FV = 0f;
 
 	[Tooltip("Max depth towards the center of the volume before forcing closing velocity to 0 (-1 to not use max depth)")]
 	[Range(-1f, 100f)]
@@ -65,29 +65,29 @@ public class GTObjectPlaceholder : MonoBehaviour
 
 	[Tooltip("Maximum speed, in meters per second, the player can move along the direction of the volume's Y-Axis.")]
 	[Range(0f, 120f)]
-	public float maxSpeed_FV;
+	public float maxSpeed_FV = 0f;
 
 	[Tooltip("If true, all surfaces become maximum slippery while in the force volume")]
-	public bool disableGrip_FV;
+	public bool disableGrip_FV = false;
 
 	public bool dampenLatVel_FV = true;
 
 	[Tooltip("Dampen current velocity on the X axis")]
 	[Range(0f, 100f)]
-	public float dampenXVel_FV;
+	public float dampenXVel_FV = 0f;
 
 	[Tooltip("Dampen current velocity on the Z axis")]
 	[Range(0f, 100f)]
-	public float dampenZVel_FV;
+	public float dampenZVel_FV = 0f;
 
 	[Tooltip("If true, pulls player to center of the volume (towards Y-Axis)")]
 	public bool applyPull_FV = true;
 
 	[Range(0f, 500f)]
-	public float pullToCenterAccel_FV;
+	public float pullToCenterAccel_FV = 0f;
 
 	[Range(0f, 500f)]
-	public float pullToCenterMaxSpeed_FV;
+	public float pullToCenterMaxSpeed_FV = 0f;
 
 	[Tooltip("The Minimum distance before the centering force is applied")]
 	[Range(0.0001f, 0.5f)]

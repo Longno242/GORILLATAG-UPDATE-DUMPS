@@ -7,49 +7,49 @@ namespace GT_CustomMapSupportRuntime;
 public class MapDescriptor : MonoBehaviour
 {
 	[Obsolete("Moved to Map Export Settings")]
-	public bool IsInitialScene;
+	public bool IsInitialScene = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool DisableHoldingHandsAllGameModes;
+	public bool DisableHoldingHandsAllGameModes = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool DisableHoldingHandsCustomOnly;
+	public bool DisableHoldingHandsCustomOnly = false;
 
 	[Obsolete("Moved to Map Export Settings")]
 	public float watchHoldDuration = 0.5f;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldTagPlayer;
+	public bool watchShouldTagPlayer = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldKickPlayer;
+	public bool watchShouldKickPlayer = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchInfectionOverride;
+	public bool watchInfectionOverride = false;
 
 	[Obsolete("Moved to Map Export Settings")]
 	public float watchHoldDuration_Infection = 0.5f;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldTagPlayer_Infection;
+	public bool watchShouldTagPlayer_Infection = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldKickPlayer_Infection;
+	public bool watchShouldKickPlayer_Infection = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchCustomModeOverride;
+	public bool watchCustomModeOverride = false;
 
 	[Obsolete("Moved to Map Export Settings")]
 	public float watchHoldDuration_CustomMode = 0.5f;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldTagPlayer_CustomMode;
+	public bool watchShouldTagPlayer_CustomMode = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool watchShouldKickPlayer_CustomMode;
+	public bool watchShouldKickPlayer_CustomMode = false;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool UseUberShaderDynamicLighting;
+	public bool UseUberShaderDynamicLighting = false;
 
 	[Obsolete("Moved to Map Export Settings")]
 	public Color UberShaderAmbientDynamicLight = Color.black;
@@ -58,7 +58,7 @@ public class MapDescriptor : MonoBehaviour
 	public TextAsset? CustomGamemode;
 
 	[Obsolete("Moved to Map Export Settings")]
-	public bool DevMode;
+	public bool DevMode = false;
 
 	[Obsolete("Moved to Map Export Settings")]
 	public int MaxPlayers = 10;
@@ -81,7 +81,7 @@ public class MapDescriptor : MonoBehaviour
 	public Color CustomSkyboxTint = new Color(0.224f, 0.424f, 0.839f, 1f);
 
 	[Tooltip("How should lighting be baked/exported?\n 1. Default_Unity - this will bake lighting using Unity's built-in system\n 2. Alternative - this will not trigger a light bake and will NOT delete Lightmapping data before exporting (use this option if you use a 3rd party baker like Bakery)\n 3. Off - this will not bake lighting and will delete Lightmapping data before exporting")]
-	public ExportLightingType LightingExportType;
+	public ExportLightingType LightingExportType = ExportLightingType.Default_Unity;
 
 	[Tooltip("If \"ExportAllObjects\" is enabled, any objects that aren't a child object of your MapDescriptor will be automatically re-parented to the MapDescriptor GameObject prior to export.")]
 	public bool ExportAllObjects = true;

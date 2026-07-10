@@ -6,5 +6,5 @@ public class AISpawnPoint : MonoBehaviour
 {
 	public string spawnID = "";
 
-	public int spawnCount;
+	public int spawnCount = 0;
 }

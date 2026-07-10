@@ -18,7 +18,7 @@ public class SurfaceMoverSettings : MonoBehaviour
 	}
 
 	[SerializeField]
-	public MoveType moveType;
+	public MoveType moveType = MoveType.Translation;
 
 	[Range(0.001f, float.MaxValue)]
 	[Tooltip("Meters per second for Translation | Revolutions per second for Rotation")]
@@ -123,7 +123,8 @@ public class SurfaceMoverSettings : MonoBehaviour
 	{
 		long num = NetworkTimeMs();
 		long num2 = CycleLengthMs();
-		return (double)(num - num / num2 * num2) / 1000.0;
+		long num3 = num - num / num2 * num2;
+		return (double)num3 / 1000.0;
 	}
 
 	private int CycleCount()
@@ -133,12 +134,14 @@ public class SurfaceMoverSettings : MonoBehaviour
 
 	private float CycleCompletionPercent()
 	{
-		return Mathf.Clamp((float)(PlatformTime() / (double)cycleDuration), 0f, 1f);
+		float value = (float)(PlatformTime() / (double)cycleDuration);
+		return Mathf.Clamp(value, 0f, 1f);
 	}
 
 	private bool IsEvenCycle()
 	{
-		return CycleCount() % 2 == 0;
+		int num = CycleCount();
+		return num % 2 == 0;
 	}
 
 	public void Move()
@@ -171,20 +174,21 @@ public class SurfaceMoverSettings : MonoBehaviour
 		{
 			return;
 		}
-		float num = lerpAlpha.Evaluate(percentage) * rotationAmount;
+		float num = lerpAlpha.Evaluate(percentage);
+		float num2 = num * rotationAmount;
 		if (rotationRelativeToStarting)
 		{
 			Vector3 euler = startingRotation;
 			switch (rotationAxis)
 			{
 			case RotationAxis.X:
-				euler.x += num;
+				euler.x += num2;
 				break;
 			case RotationAxis.Y:
-				euler.y += num;
+				euler.y += num2;
 				break;
 			case RotationAxis.Z:
-				euler.z += num;
+				euler.z += num2;
 				break;
 			}
 			base.transform.localRotation = Quaternion.Euler(euler);
@@ -194,13 +198,13 @@ public class SurfaceMoverSettings : MonoBehaviour
 			switch (rotationAxis)
 			{
 			case RotationAxis.X:
-				base.transform.localRotation = Quaternion.AngleAxis(num, Vector3.right);
+				base.transform.localRotation = Quaternion.AngleAxis(num2, Vector3.right);
 				break;
 			case RotationAxis.Y:
-				base.transform.localRotation = Quaternion.AngleAxis(num, Vector3.up);
+				base.transform.localRotation = Quaternion.AngleAxis(num2, Vector3.up);
 				break;
 			case RotationAxis.Z:
-				base.transform.localRotation = Quaternion.AngleAxis(num, Vector3.forward);
+				base.transform.localRotation = Quaternion.AngleAxis(num2, Vector3.forward);
 				break;
 			}
 		}
