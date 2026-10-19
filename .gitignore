@@ -1,0 +1,6 @@
+# Keep this repo tooling-only — ignore dump output
+*
+!DUMP.bat
+!Update-Dump.ps1
+!README.md
+!.gitignore
